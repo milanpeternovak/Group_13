@@ -67,7 +67,7 @@ ax3.set_ylabel("Frequency")
 ax3.set_title(f"Height Distribution for {selected_gender}")
 st.pyplot(fig3)
 
-Code for the LLM Part: 
+# Code for the LLM Part: 
 import streamlit as st
 import random
 import matplotlib.pyplot as plt
