@@ -68,10 +68,7 @@ ax3.set_title(f"Height Distribution for {selected_gender}")
 st.pyplot(fig3)
 
 # Code for the LLM Part: 
-import streamlit as st
 import random
-import matplotlib.pyplot as plt
-from movie_dataset import MovieDataset
 from ollama import chat, ChatResponse
 
 # Create an instance of MovieDataset
