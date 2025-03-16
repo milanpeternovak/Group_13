@@ -49,7 +49,7 @@ if st.button("Shuffle"):
         st.text_area("Genres", ", ".join(movie_genres))
         
         # Use local LLM to classify the genre
-        response: ChatResponse = chat(model='mistral', messages=[
+        response: ChatResponse = chat(model='deepseek-r1:1.5b', messages=[
             {
                 'role': 'user',
                 'content': f'Classify the following movie summary into genres: {movie_summary}. Only list the genres, separated by commas. Do not include any additional information or brackets.',
