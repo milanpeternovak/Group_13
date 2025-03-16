@@ -50,7 +50,7 @@ if st.button("Shuffle"):
         response: ChatResponse = chat(model='mistral', messages=[
             {
                 'role': 'user',
-                'content': f'Classify the following movie summary into genres: {movie_summary}. The genres should be one word, for example don't say Political Thriller, only Thriller. Only list the genres, separated by commas. Do not include any additional information or brackets.',
+                'content': f"Classify the following movie summary into genres: {movie_summary}. The genres should be one word, for example don't say Political Thriller, only Thriller. Only list the genres, separated by commas. Do not include any additional information or brackets.",
             },
         ])
         
