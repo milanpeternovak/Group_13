@@ -359,53 +359,47 @@ class MovieData(BaseModel):
             plt.grid(True)
             plt.show()
 
-        return filtered_data[["actor_name", "actor_gender", "actor_height_in_meters"]]
+        return filtered_data
 
     def releases(self, genre: str = None) -> pd.DataFrame:
         """
         Computes the number of movies released per year, optionally filtered by genre.
-        
-        Parameters
-        ----------
-        genre : str, optional
-            A specific genre to filter movies by. Defaults to None.
-            
-        Returns
-        -------
-        pd.DataFrame
-            A DataFrame containing the number of movies released per year.
         """
-
-        # Ensure the dataset is loaded
         if self.movie_df is None:
             raise ValueError("Dataset not loaded.")
 
-        # Remove rows with missing release dates
-        df = self.movie_df.dropna(subset=["release_date"]).copy()
-
-        # Extract only the first 4 digits of the release date
-        df["release_year"] = df["release_date"].astype(str).str[:4]
-        
-        # Convert genres column from string to actual dictionary
-        df["genres"] = df["genres"].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else {})
-
-        # Extract unique genre names
-        unique_genres = set(genre_name for genre_dict in df["genres"] for genre_name in genre_dict.values())
+        self.movie_df = self.movie_df.dropna(subset=["release_date"])
+        self.movie_df["release_year"] = (
+            self.movie_df["release_date"].astype(str).str[:4]
+        )
 
         if genre:
-            if genre not in unique_genres:
-                raise ValueError(f"Invalid genre. Choose from: {sorted(unique_genres)}")
-            df = df[df["genres"].apply(lambda x: genre in x.values())]
+            self.movie_df["genres"] = self.movie_df["genres"].apply(ast.literal_eval)
 
-        # Count movies per year
-        release_counts = df["release_year"].value_counts().reset_index()
-        release_counts.columns = ["release_year", "Movie_Count"]
+            all_genres = set(
+                genre
+                for sublist in self.movie_df["genres"].apply(lambda x: list(x.values()))
+                for genre in sublist
+            )
+            if genre not in all_genres:
+                raise ValueError(f"Invalid genre. Choose from: {sorted(all_genres)}")
 
-        # Rename column to match the expected format
-        release_counts = release_counts.rename(columns={"release_year": "Year"})
+            self.movie_df["is_genre_match"] = self.movie_df["genres"].apply(
+                lambda x: genre in x.values()
+            )
+            filtered_df = self.movie_df[self.movie_df["is_genre_match"]]
+        else:
+            filtered_df = self.movie_df
 
-        return release_counts.sort_values("Year")
+        release_counts = (
+            filtered_df.groupby("release_year").size().reset_index(name="Movie_Count")
+        )
+        release_counts["release_year"] = release_counts["release_year"].astype(int)
+        release_counts = release_counts.sort_values(by="release_year").reset_index(
+            drop=True
+        )
 
+        return release_counts
 
     def ages(self, unit: str = "Y") -> pd.DataFrame:
         """
@@ -477,3 +471,8 @@ class MovieData(BaseModel):
             birth_counts.rename(columns={"birth_month": "Month"}, inplace=True)
 
         return birth_counts
+
+
+# Example usage
+url = "http://www.cs.cmu.edu/~ark/personas/data/MovieSummaries.tar.gz"
+movie_data = MovieData(url=url)
