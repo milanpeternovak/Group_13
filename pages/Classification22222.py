@@ -2,7 +2,7 @@
 import streamlit as st
 import random
 import matplotlib.pyplot as plt
-#from movie_dataset_v2 import MovieData
+from movie_dataset_v2 import MovieData
 import ollama
 from ollama import chat, ChatResponse
 
@@ -47,8 +47,9 @@ if st.button("Shuffle"):
         # Display the information in text boxes
         st.markdown(f"### {movie_title}\n\n{movie_summary}")
         st.text_area("Genres", ", ".join(movie_genres))
-        
+
         # Use local LLM to classify the genre
+        ollama.serve()
         response: ChatResponse = chat(model='mistral', messages=[
             {
                 'role': 'user',
@@ -56,7 +57,6 @@ if st.button("Shuffle"):
             },
         ])
         
-        ollama.serve()
 
         # Extract and display the genre classification
         llm_genres = response.message.content.strip()
