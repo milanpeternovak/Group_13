@@ -360,7 +360,7 @@ class MovieData(BaseModel):
             plt.show()
 
         return filtered_data
-
+"""
     def releases(self, genre: str = None) -> pd.DataFrame:
         """
         Computes the number of movies released per year, optionally filtered by genre.
@@ -400,6 +400,7 @@ class MovieData(BaseModel):
         )
 
         return release_counts
+    """
 
     def releases(self, genre: str = None) -> pd.DataFrame:
         """
