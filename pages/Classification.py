@@ -30,11 +30,11 @@ if st.button("Shuffle"):
         # Select a random movie from the filtered list
         random_index = random.randint(0, len(valid_movies) - 1)
         movie = valid_movies.iloc[random_index]
-        movie_id = movie["wiki_movie_id"]
+        movie_id = movie["wikipedia_movie_id"]
         
         # Get the movie title and summary
         movie_title = movie["movie_name"]
-        plot_summary_row = test_instance.plot_summaries[test_instance.plot_summaries["wiki_movie_id"] == movie_id]
+        plot_summary_row = test_instance.plot_summaries[test_instance.plot_summaries["wikipedia_movie_id"] == movie_id]
         
         if not plot_summary_row.empty:
             movie_summary = plot_summary_row["plot_summary"].values[0]
