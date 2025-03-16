@@ -10,8 +10,8 @@ from ollama import chat, ChatResponse
 url = "http://www.cs.cmu.edu/~ark/personas/data/MovieSummaries.tar.gz"
 test_instance = MovieData(url=url)
 
-# Set page configuration
-st.set_page_config(page_title="Random Movie Information", page_icon="🎬", layout="wide")
+# Set page title
+st.title("Random Movie Information")
 
 # Filter movies with existing summaries and genres
 valid_movies = test_instance.movie_df[
