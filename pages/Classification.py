@@ -50,7 +50,7 @@ if st.button("Shuffle"):
         response: ChatResponse = chat(model='mistral', messages=[
             {
                 'role': 'user',
-                'content': f'Classify the following movie summary into genres: {movie_summary}. Only list the genres, separated by commas. Do not include any additional information or brackets.',
+                'content': f'Classify the following movie summary into genres: {movie_summary}. The genres should be one word, for example don't say Political Thriller, only Thriller. Only list the genres, separated by commas. Do not include any additional information or brackets.',
             },
         ])
         
@@ -69,9 +69,9 @@ if st.button("Shuffle"):
             st.markdown(", ".join(matching_genres))
         
         if identified_genres.issubset(database_genres):
-            st.success("The genres identified by the LLM are contained in the database genres.")
+            st.success("It's a perfect match. The LLM works!!!")
         else:
-            st.warning("The genres identified by the LLM are not fully contained in the database genres.")
+            st.warning("It's not you it's me. The LLM made some bad decisions.")
         
         # Visualization of the score
         genre_counts = {
