@@ -362,9 +362,7 @@ class MovieData(BaseModel):
         return filtered_data
 """
     def releases(self, genre: str = None) -> pd.DataFrame:
-        """
         Computes the number of movies released per year, optionally filtered by genre.
-        """
         if self.movie_df is None:
             raise ValueError("Dataset not loaded.")
 
