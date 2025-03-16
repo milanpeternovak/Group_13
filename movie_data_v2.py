@@ -360,45 +360,6 @@ class MovieData(BaseModel):
             plt.show()
 
         return filtered_data
-"""
-    def releases(self, genre: str = None) -> pd.DataFrame:
-        Computes the number of movies released per year, optionally filtered by genre.
-        if self.movie_df is None:
-            raise ValueError("Dataset not loaded.")
-
-        self.movie_df = self.movie_df.dropna(subset=["release_date"])
-        self.movie_df["release_year"] = (
-            self.movie_df["release_date"].astype(str).str[:4]
-        )
-
-        if genre:
-            self.movie_df["genres"] = self.movie_df["genres"].apply(ast.literal_eval)
-
-            all_genres = set(
-                genre
-                for sublist in self.movie_df["genres"].apply(lambda x: list(x.values()))
-                for genre in sublist
-            )
-            if genre not in all_genres:
-                raise ValueError(f"Invalid genre. Choose from: {sorted(all_genres)}")
-
-            self.movie_df["is_genre_match"] = self.movie_df["genres"].apply(
-                lambda x: genre in x.values()
-            )
-            filtered_df = self.movie_df[self.movie_df["is_genre_match"]]
-        else:
-            filtered_df = self.movie_df
-
-        release_counts = (
-            filtered_df.groupby("release_year").size().reset_index(name="Movie_Count")
-        )
-        release_counts["release_year"] = release_counts["release_year"].astype(int)
-        release_counts = release_counts.sort_values(by="release_year").reset_index(
-            drop=True
-        )
-
-        return release_counts
-    """
 
     def releases(self, genre: str = None) -> pd.DataFrame:
         """
