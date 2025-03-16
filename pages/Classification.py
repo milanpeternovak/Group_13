@@ -2,7 +2,7 @@
 import streamlit as st
 import random
 import matplotlib.pyplot as plt
-from movie_dataset_v2 import MovieData
+from movie_data_v2 import MovieData
 from ollama import chat, ChatResponse
 
 # Create an instance of MovieDataset
