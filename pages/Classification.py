@@ -33,7 +33,7 @@ if st.button("Shuffle"):
         movie_id = movie["wikipedia_movie_id"]
         
         # Get the movie title and summary
-        movie_title = movie["movie_name"]
+        movie_title = movie["title"]
         plot_summary_row = test_instance.plot_summaries[test_instance.plot_summaries["wikipedia_movie_id"] == movie_id]
         
         if not plot_summary_row.empty:
