@@ -124,6 +124,7 @@ class MovieData(BaseModel):
         """
         movie_file = os.path.join(self.extract_path, "movie.metadata.tsv")
         character_file = os.path.join(self.extract_path, "character.metadata.tsv")
+        plot_file = os.path.join(self.extract_path, "plot_summaries.txt")
 
         if os.path.exists(movie_file) and os.path.exists(character_file):
             self.movie_df = pd.read_csv(
