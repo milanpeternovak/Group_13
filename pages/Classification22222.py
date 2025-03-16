@@ -13,9 +13,6 @@ test_instance = MovieData(url=url)
 # Set page configuration
 st.set_page_config(page_title="Random Movie Information", page_icon="🎬", layout="wide")
 
-# Streamlit page title
-st.title("Random Movie Information")
-
 # Filter movies with existing summaries and genres
 valid_movies = test_instance.movie_df[
     #(test_instance.movie_df["wikipedia_movie_id"].isin(test_instance.plot_summaries["wikipedia_movie_id"])) &
