@@ -45,7 +45,6 @@ if st.button("Shuffle"):
         # Display the information in text boxes
         st.markdown(f"### {movie_title}\n\n{movie_summary}")
         st.text_area("Genres", ", ".join(movie_genres))
-        ollama.serve()
         # Use local LLM to classify the genre
         response: ChatResponse = chat(model='deepseek-r1:1.5b', messages=[
             {
