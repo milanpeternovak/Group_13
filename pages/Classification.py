@@ -2,11 +2,11 @@
 import streamlit as st
 import random
 import matplotlib.pyplot as plt
-from movie_dataset_v2 import MovieData
+#from movie_dataset_v2 import MovieData
 from ollama import chat, ChatResponse
 
 # Create an instance of MovieDataset
-test_instance = MovieData()
+test_instance = MovieData(url=url)
 
 # Set page configuration
 st.set_page_config(page_title="Random Movie Information", page_icon="🎬", layout="wide")
@@ -15,9 +15,9 @@ st.set_page_config(page_title="Random Movie Information", page_icon="🎬", layo
 st.title("Random Movie Information")
 
 # Filter movies with existing summaries and genres
-valid_movies = test_instance.movie_metadata[
-    (test_instance.movie_metadata["wiki_movie_id"].isin(test_instance.plot_summaries["wiki_movie_id"])) &
-    (test_instance.movie_metadata["genres"].notna())
+valid_movies = test_instance.movie_df[
+    #(test_instance.movie_df["wikipedia_movie_id"].isin(test_instance.plot_summaries["wikipedia_movie_id"])) &
+    (test_instance.movie_df["genres"].notna())
 ]
 
 # Shuffle button
