@@ -163,6 +163,15 @@ class MovieData(BaseModel):
                 ],
                 header=None,
             )
+            self.plot_summaries = pd.read_csv(
+                plot_file,
+                sep="\t"
+                names=[
+                    "wikipedia_movie_id",
+                    "plot_summary"
+                ],
+                header=None,
+            )
 
             print("Datasets loaded successfully.")
         else:
