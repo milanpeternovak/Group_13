@@ -1,3 +1,6 @@
+conda activate adproject
+
+
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -72,7 +75,7 @@ import random
 from ollama import chat, ChatResponse
 
 # Create an instance of MovieDataset
-test_instance = MovieDataset(url=url)
+test_instance = MovieData(url=url)
 
 # Set page configuration
 st.set_page_config(page_title="Random Movie Information", page_icon="🎬", layout="wide")
