@@ -1,18 +1,17 @@
+
 #Code for the LLM Part: 
 import streamlit as st
 import random
 import matplotlib.pyplot as plt
 from movie_data_v2 import MovieData
+import ollama
 from ollama import chat, ChatResponse
 
 # Initialize MovieData instance
 url = "http://www.cs.cmu.edu/~ark/personas/data/MovieSummaries.tar.gz"
 test_instance = MovieData(url=url)
 
-# Set page configuration
-st.set_page_config(page_title="Random Movie Information", page_icon="🎬", layout="wide")
-
-# Streamlit page title
+# Set page title
 st.title("Random Movie Information")
 
 # Filter movies with existing summaries and genres
@@ -47,9 +46,8 @@ if st.button("Shuffle"):
         # Display the information in text boxes
         st.markdown(f"### {movie_title}\n\n{movie_summary}")
         st.text_area("Genres", ", ".join(movie_genres))
-        
         # Use local LLM to classify the genre
-        response: ChatResponse = chat(model='deepseek-r1:1.5b', messages=[
+        response: ChatResponse = chat(model='mistral', messages=[
             {
                 'role': 'user',
                 'content': f'Classify the following movie summary into genres: {movie_summary}. Only list the genres, separated by commas. Do not include any additional information or brackets.',
