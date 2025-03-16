@@ -2,11 +2,12 @@
 import streamlit as st
 import random
 import matplotlib.pyplot as plt
-from movie_dataset_v2 import MovieData
+from movie_data_v2 import MovieData
 import ollama
 from ollama import chat, ChatResponse
 
-# Create an instance of MovieDataset
+# Initialize MovieData instance
+url = "http://www.cs.cmu.edu/~ark/personas/data/MovieSummaries.tar.gz"
 test_instance = MovieData(url=url)
 
 # Set page configuration
@@ -17,7 +18,7 @@ st.title("Random Movie Information")
 
 # Filter movies with existing summaries and genres
 valid_movies = test_instance.movie_df[
-    (test_instance.movie_df["wikipedia_movie_id"].isin(test_instance.plot_summaries["wikipedia_movie_id"])) &
+    #(test_instance.movie_df["wikipedia_movie_id"].isin(test_instance.plot_summaries["wikipedia_movie_id"])) &
     (test_instance.movie_df["genres"].notna())
 ]
 
@@ -30,11 +31,11 @@ if st.button("Shuffle"):
         # Select a random movie from the filtered list
         random_index = random.randint(0, len(valid_movies) - 1)
         movie = valid_movies.iloc[random_index]
-        movie_id = movie["wiki_movie_id"]
+        movie_id = movie["wikipedia_movie_id"]
         
         # Get the movie title and summary
-        movie_title = movie["movie_name"]
-        plot_summary_row = test_instance.plot_summaries[test_instance.plot_summaries["wiki_movie_id"] == movie_id]
+        movie_title = movie["title"]
+        plot_summary_row = test_instance.plot_summaries[test_instance.plot_summaries["wikipedia_movie_id"] == movie_id]
         
         if not plot_summary_row.empty:
             movie_summary = plot_summary_row["plot_summary"].values[0]
@@ -47,17 +48,15 @@ if st.button("Shuffle"):
         # Display the information in text boxes
         st.markdown(f"### {movie_title}\n\n{movie_summary}")
         st.text_area("Genres", ", ".join(movie_genres))
-
-        # Use local LLM to classify the genre
         ollama.serve()
-        response: ChatResponse = chat(model='mistral', messages=[
+        # Use local LLM to classify the genre
+        response: ChatResponse = chat(model='deepseek-r1:1.5b', messages=[
             {
                 'role': 'user',
                 'content': f'Classify the following movie summary into genres: {movie_summary}. Only list the genres, separated by commas. Do not include any additional information or brackets.',
             },
         ])
         
-
         # Extract and display the genre classification
         llm_genres = response.message.content.strip()
         st.text_area("Genre by LLM", llm_genres)
