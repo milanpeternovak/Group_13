@@ -424,7 +424,7 @@ class MovieData(BaseModel):
         # Sort by release year and reset index
         release_counts = release_counts.sort_values(by="release_year").reset_index(drop=True)
 
-    return release_counts
+        return release_counts
 
     def ages(self, unit: str = "Y") -> pd.DataFrame:
         """
