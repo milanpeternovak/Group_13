@@ -36,6 +36,7 @@ class MovieData(BaseModel):
     )
     movie_df: pd.DataFrame = None
     character_df: pd.DataFrame = None
+    plot_summaries: pd.DataFrame = None
 
     model_config = {
         "arbitrary_types_allowed": True  # Allows Pandas DataFrames within Pydantic models
