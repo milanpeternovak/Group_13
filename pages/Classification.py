@@ -5,8 +5,9 @@ import matplotlib.pyplot as plt
 from movie_data_v2 import MovieData
 from ollama import chat, ChatResponse
 
-# Create an instance of MovieDataset
-test_instance = MovieData()
+# Initialize MovieData instance
+url = "http://www.cs.cmu.edu/~ark/personas/data/MovieSummaries.tar.gz"
+test_instance = MovieData(url=url)
 
 # Set page configuration
 st.set_page_config(page_title="Random Movie Information", page_icon="🎬", layout="wide")
