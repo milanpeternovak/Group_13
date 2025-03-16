@@ -6,7 +6,7 @@ from movie_data_v2 import MovieData
 from ollama import chat, ChatResponse
 
 # Create an instance of MovieDataset
-test_instance = MovieData(url=url)
+test_instance = MovieData()
 
 # Set page configuration
 st.set_page_config(page_title="Random Movie Information", page_icon="🎬", layout="wide")
