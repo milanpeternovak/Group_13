@@ -165,7 +165,7 @@ class MovieData(BaseModel):
             )
             self.plot_summaries = pd.read_csv(
                 plot_file,
-                sep="\t"
+                sep="\t",
                 names=[
                     "wikipedia_movie_id",
                     "plot_summary"
