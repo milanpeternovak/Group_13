@@ -81,7 +81,7 @@ if st.button("Shuffle"):
         }
         
         fig, ax = plt.subplots()
-        ax.bar(genre_counts.keys(), genre_counts.values(), color=["skyblue", "lightcoral", "lightgreen"])
+        ax.bar(genre_counts.keys(), genre_counts.values(), color=["purple", "black", "lightgreen"])
         ax.set_ylabel("Count")
         ax.set_title("Genre Detection Score")
         st.pyplot(fig)
