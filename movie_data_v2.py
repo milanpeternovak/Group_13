@@ -401,6 +401,71 @@ class MovieData(BaseModel):
 
         return release_counts
 
+    def releases(self, genre: str = None) -> pd.DataFrame:
+        """
+        Computes the number of movies released per year, optionally filtered by genre.
+    
+        Args:
+            genre (str, optional): A specific genre to filter movies by. Defaults to None.
+    
+        Returns:
+            pd.DataFrame: A DataFrame containing the number of movies released per year.
+    
+        Raises:
+            ValueError: If the dataset is not loaded or if an invalid genre is provided.
+        """
+    
+        # Ensure the dataset is loaded
+        if self.movie_df is None:
+            raise ValueError("Dataset not loaded.")
+    
+        # Remove rows with missing release dates
+        self.movie_df = self.movie_df.dropna(subset=["release_date"])
+    
+        # Extract the release year as a string and take only the first 4 characters
+        self.movie_df["release_year"] = self.movie_df["release_date"].astype(str).str[:4]
+    
+        # Process genre filtering if a genre is provided
+        if genre:
+            # Convert genre strings into actual Python lists (from string representations)
+            self.movie_df["genres"] = self.movie_df["genres"].apply(ast.literal_eval)
+    
+            # Extract all unique genre names from the dataset
+            all_genres = set(
+                genre_name
+                for genre_list in self.movie_df["genres"].apply(lambda x: [d["name"] for d in x])
+                for genre_name in genre_list
+            )
+    
+            # Validate that the given genre exists in the dataset
+            if genre not in all_genres:
+                raise ValueError(f"Invalid genre. Choose from: {sorted(all_genres)}")
+    
+            # Create a boolean column to filter movies containing the specified genre
+            self.movie_df["is_genre_match"] = self.movie_df["genres"].apply(
+                lambda x: any(d["name"] == genre for d in x)
+            )
+    
+            # Filter dataset to only include movies that match the specified genre
+            filtered_df = self.movie_df[self.movie_df["is_genre_match"]]
+        else:
+            filtered_df = self.movie_df
+    
+        # Count the number of movies released per year
+        release_counts = (
+            filtered_df.groupby("release_year")
+            .size()
+            .reset_index(name="Movie_Count")
+        )
+    
+        # Ensure the release_year column is an integer for sorting purposes
+        release_counts["release_year"] = release_counts["release_year"].astype(int)
+    
+        # Sort by release year and reset index
+        release_counts = release_counts.sort_values(by="release_year").reset_index(drop=True)
+
+    return release_counts
+
     def ages(self, unit: str = "Y") -> pd.DataFrame:
         """
         Computes the number of actor births per year or month.
