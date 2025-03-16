@@ -1,5 +1,7 @@
 # adpro_project
 
+Hi, this is us :
+
 Bastien Gobet, mail address: 52255@novasbe.pt
 
 Eloi Lahondé, mail address: 65729@novasbe.pt
